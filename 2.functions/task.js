@@ -1,123 +1,91 @@
-
 function getArrayParams(...arr) {
-  let min = arr[0];
-  let max = arr[0];
-  let sum = 0;
-  let avg;
+  let min, max, sum, avg;
 
-  for (i = 0; i < [...arr].length; i++) {
-    if (min > arr[i]) {
-      min = arr[i];
-    }
+  min = arr[0];
+  max = min;
+  sum = 0;
+  n = 0;
+  for (i=0; i < arr.length ; ++i){
+    if (arr[i] > max) max = arr[i];
+    if (arr[i] < min) min = arr[i];
+    sum += arr[i];
+    n++;
   }
-
-  for (i = 0; i < [...arr].length; i++) {
-    if (max < arr[i]) {
-      max = arr[i];
-    }
-  }
-
-  for (i = 0; i < [...arr].length; i++) {
-    sum = sum + arr[i];
-  }
-  avg = Math.round((sum / [...arr].length) * 100) / 100;
-  const minOne = arr.reduce((so, x) => so < x ? so : x, arr[0])
-  const maxOne = arr.reduce((so, x) => so > x ? so : x, arr[0])
-  const sumOne = arr.reduce((so, x) => so + x, 0)
-  const avgOne = Math.round((sum / [...arr].length) * 100) / 100;
-  
-
+  avg = Number((sum/n).toFixed(2));
   return { min: min, max: max, avg: avg };
 }
 
+function summElementsWorker(...arr) {
+  let getSum = arr.reduce((acum, number) => {
+    return acum + number
+  }, 0)
 
-  function summElementsWorker(...arr) {
-    let sum = 0;
-  const summElementsWorker = (...arr) => arr.reduce((prev, x) => prev + x, 0)
-  
-    for (i = 0; i < [...arr].length; i++) {
-      sum = sum + arr[i];
-    }
-  
-    return sum;
+  return getSum
+}
+
+function differenceMaxMinWorker(...arr) {
+  let min = Infinity;
+  let max = -Infinity;
+
+  if (arr.length == 0) {
+    return 0
   }
-  
- 
-  function differenceMaxMinWorker(...arr) {
-  
-      let minOne = arr[0];
-      let maxOne = arr[0];
-    
-      for (i = 0; i < [...arr].length; i++) {
-        if (maxOne < arr[i]) {
-          maxOne = arr[i];
-        }
-      }
-    
-      for (i = 0; i < [...arr].length; i++) {
-        if (minOne > arr[i]) {
-          minOne = arr[i];
-        }
-      }
-      const min = (...arr) => arr.reduce((prev, x) => prev < x ? prev : x, minOne)
-      const max =(...arr) => arr.reduce((prev, x) => prev > x ? prev : x, maxOne)
-    
-      return maxOne-minOne
+
+  max = Math.max(...arr)
+  min = Math.min(...arr)
+  return max - min
+}
+
+function differenceEvenOddWorker(...arr) {
+  let sumEvenElement = 0;
+  let sumOddElement = 0;
+
+  if (arr.length == 0) {
+    return 0
+  }
+
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] % 2 === 0) {
+      sumEvenElement += arr[i]
     }
-
-    function worker(arr) {
-      let sum = 0; 
-      for(let i = 0; i < arr.length; i++) {
-        sum += arr[i];
-      }
-      return sum;
+    if (!(arr[i] % 2 === 0)) {
+      sumOddElement += arr[i]
     }
-    
-    function worker2(arr) {
-      let min = arr[0], max = arr[0];
-      for(let i = 1; i < arr.length; i++) {
-        if(arr[i] < min) {
-          min = arr[i];
-        }
-        else if(arr[i] > max) {
-          max = arr[i];
-        }
-      }
-      return { difference: Math.abs(max - min) };
-      return Math.abs(max - min);
+  }
+  return sumEvenElement - sumOddElement
+}
+
+function averageEvenElementsWorker(...arr) {
+  let sumEvenElement = 0;
+  let countEvenElement = 0;
+  let evenResult;
+  let sumOddElement = 0;
+
+  if (arr.length == 0) {
+    return 0
+  }
+
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] % 2 === 0) {
+      sumEvenElement += arr[i]
+      countEvenElement++
     }
-   
+  }
+  evenResult = sumEvenElement / countEvenElement;
 
-    function makeWork (arrOfArr, func) {
-      let max = func(arrOfArr[0]); 
-       for(let i = 0; i < arrOfArr.length; i++) {
-        if(max < func(arrOfArr[i])) {
-          max = func(arrOfArr[i]);
-          const maxWorkerResult = func(arrOfArr[i]);
-          if (maxWorkerResult > max) {
-            max = funcResult;
-          }
-        }
-      }
-      return { max: max } ;
-      
+  return evenResult
+}
+
+function makeWork(arr, func) {
+  let maxWorkerResult = -Infinity;
+
+  for (let i = 0; i < arr.length; i++) {
+    const funcArr = func(...arr[i]);
+    if (maxWorkerResult < funcArr) {
+      maxWorkerResult = funcArr;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  }
+  return maxWorkerResult
+}
+const arr = [[10, 10, 11, 20, 10], [67, 10, 2, 39, 88], [72, 75, 51, 87, 43], [30, 41, 55, 96, 62]];
+console.log(makeWork(arr, summElementsWorker));
