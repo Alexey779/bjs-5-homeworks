@@ -1,3 +1,4 @@
+
 function Student(name, gender, age, ...marks) {
     this.name = name;
     this.gender = gender;
@@ -18,7 +19,7 @@ Student.prototype.addMarks = function (...marksToAdd) {
         console.log('Студент отчислен');
     }
 }
-}
+
 Student.prototype.getAverage = function () {
     if (this.marks === undefined || (this.marks.length < 1)) {
         return 0
@@ -41,4 +42,3 @@ Student.prototype.exclude = function (reason) {
     delete this.marks;
     this.excluded = reason;
 }
-
